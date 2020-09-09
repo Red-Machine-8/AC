@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv='Content-Type' content='utf-8'>
+        <title>AС Бюджет</title>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+    </head>
+    <body>
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+        <!--<script language="JavaScript" type="text/javascript" src="button.js"></script>-->
+        <script type="text/javascript" charset="utf-8">
+
+            function btnClick() {
+                var number = document.getElementById('username').value;
+                var datefrom = document.getElementById('datefrom').value;
+                var dateto = document.getElementById('dateto').value;
+
+
+                $.ajax({
+                    url: '/read',
+                    data: {"Number": number, "Datefrom": datefrom, "Dateto":dateto},
+                    scriptCharset: "utf-8",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    method: 'GET',
+                    success: function res(data) {
+                          var countData = data.length;
+                          $('table tr:not(:first)').remove();
+                          for (var i = 0; i < countData; i++){
+                              var number = data[i].number;
+                              var date = data[i].date;
+                              var sum = data[i].sum;
+                              var note = data[i].note;
+
+
+                        $('table').append('<tr>' +
+                            '<td width="1x">' + number + '</td>' +
+                            '<td width="10x">' + date + '</td>' +
+                            '<td width="1x">' + sum + '</td>' +
+                            '<td width="5x">' + note + '</td>' +
+                            '</tr>');
+                        }
+                     }
+                });
+
+            }
+
+
+
+        </script>
+
+            <br>
+             <div class="row">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-2">
+                       <input type="button" onclick="btnClick()" class="btn btn-primary" style="width: 100%" value="Выбрать"><br>
+                        <div class="border border-primary rounded text-center">
+                             <div class="row">
+                                 <div class="col-sm-1">
+
+                                 </div>
+                                <div class="col-sm-1">
+                                    <br>
+                                    Номер:<br>
+                                    <br>
+                                    C: <br>
+                                    <br>
+                                    До: <br>
+                                    <br>
+                                </div>
+                                <div class="col-sm">
+                                    <br>
+                                    <input id="username" type="text" style="width: 70%" align="cen"/><br>
+                                    <br>
+                                    <input id="datefrom" type="date"  style="width: 70%" min="2016-01-01" max="2016-12-31"><br>
+                                    <br>
+                                    <input id="dateto" type="date"  style="width: 70%" min="2016-01-01" max="2016-12-31"><br>
+                                    <br>
+                                </div>
+                             </div>
+                        </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <table id="result"   class="table table-bordered 0" align="center" >
+                        <tr><th>№</th><th>Дата</th><th>Сумма</th><th>Назначение платежа</th></tr>
+                    </table>
+
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+
+
+
+
+
+    </body>
+</html>
